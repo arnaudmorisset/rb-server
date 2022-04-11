@@ -1,12 +1,8 @@
 # RB Server
 
-Even when working in a gRPC-based services-oriented environment, it can sometimes be helpful to start an HTTP Server.
-In my context, I needed a way to handle simple GET requests for mechanisms such as callbacks or any kind of "notification"
-request that shouldn't go through an API gateway.
+This is a simple abstraction on top of [Thin](https://github.com/macournoyer/thin).
 
-I knew I should write this HTTP server in Ruby, the primary programming language used in my company.
-However, I didn't know if I should use Puma, Unicorn, Thin, or any other servers available in the Ruby ecosystem.
-That's why I choose to prototype a common HTTP Server class.
+This HTTP server can start, stop, handle `GET` requests and came with a default endpoint for `/health`.
 
 > **This repository is not a library** and should be interesting mostly for me and my coworkers. 🙂
 
