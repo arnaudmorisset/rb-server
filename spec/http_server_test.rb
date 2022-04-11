@@ -3,7 +3,7 @@
 require 'json'
 require 'net/http'
 require 'minitest/autorun'
-require_relative './http_server'
+require_relative '../src/http_server'
 
 # Basic endpoint returning status code 200 and body 'OK!'
 class PingHandler
