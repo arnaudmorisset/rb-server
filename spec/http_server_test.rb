@@ -34,14 +34,13 @@ class HealthHandler
   end
 end
 
-# Required tests for our custom HTTP server
-describe 'functional test for our custom HTTP server' do
+describe 'tests related to status code and response body' do
   before(:all) do
     @server = HTTPServer.new('0.0.0.0', 8080)
   end
 
   after do
-    @server.stop unless @server.server.nil?
+    @server.stop
   end
 
   it 'test that server is able to handle a given route' do
@@ -71,6 +70,16 @@ describe 'functional test for our custom HTTP server' do
 
     assert_equal Net::HTTPInternalServerError, res.code_type
     assert_equal 'Internal server error', res.body
+  end
+end
+
+describe 'tests related to the health check' do
+  before(:all) do
+    @server = HTTPServer.new('0.0.0.0', 8080)
+  end
+
+  after do
+    @server.stop
   end
 
   it 'test that server start with a default handler for /health' do
