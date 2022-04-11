@@ -10,12 +10,16 @@ class HTTPServer
   def initialize(domain, port)
     @port = port
     @domain = domain
-    @server = Thin::Server.new(domain, 8080, Rack::URLMap.new)
+    @url_map = {}
   end
 
-  def handle(path, handler) end
+  def handle(path, handler)
+    @url_map[path] = handler.new
+  end
 
   def start
+    @server = Thin::Server.new(domain, 8080, Rack::URLMap.new(@url_map))
+    @server.silent = true
     @thread = Thread.new { @server.start }
     sleep(0.5) until @server.running?
   end

@@ -9,21 +9,19 @@ class PingHandler
   def call(_)
     [
       200,
-      {},
+      { 'Content-Type' => 'text/plain' },
       ['OK!']
     ]
   end
 end
 
 # Required tests for our custom HTTP server
-describe 'functionnal test for our custom HTTP server' do
+describe 'functional test for our custom HTTP server' do
   before(:all) do
     @server = HTTPServer.new('0.0.0.0', 8080)
-    @server.server.silent = true
-    @server.handle('/ping', PingHandler)
   end
 
-  after(:all) do
+  after do
     @server.stop
   end
 
@@ -35,9 +33,18 @@ describe 'functionnal test for our custom HTTP server' do
     # on the given domain:port address.
     Net::HTTP.get('0.0.0.0', '/', 8080)
   end
+
+  it 'test that server is able to handle a given route' do
+    @server.handle('/ping', PingHandler)
+    @server.start
+
+    res = Net::HTTP.get_response(URI('http://0.0.0.0:8080/ping'))
+
+    assert_equal Net::HTTPOK, res.code_type
+    assert_equal 'OK!', res.body
+  end
 end
 
-# HTTP Server handle a given route
 # HTTP Server send back 404 when route doesn't exist
 # HTTP Server handle fatal errors and returns 500
 # HTTP Server answer on /health by default
