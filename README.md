@@ -4,7 +4,7 @@
 
 This is a simple abstraction on top of [Thin](https://github.com/macournoyer/thin).
 
-This HTTP server can only start, stop, handle `GET` requests and handle `/health` by default.
+This HTTP server can only start, stop, accept `GET` requests and handle `/health` by default.
 
 ## Installation
 
