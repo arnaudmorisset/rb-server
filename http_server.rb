@@ -3,7 +3,7 @@
 require 'thin'
 
 # Default handler for `/health`
-class HealthHandler
+class DefaultHealthHandler
   def call(_)
     [
       200,
@@ -21,7 +21,7 @@ class HTTPServer
   def initialize(domain, port)
     @port = port
     @domain = domain
-    @url_map = { '/health' => HealthHandler.new }
+    @url_map = { '/health' => DefaultHealthHandler.new }
   end
 
   def handle(path, handler)

@@ -23,6 +23,17 @@ class ErrorHandler
   end
 end
 
+# Basic endpoint to check that custom `/health` handler work
+class HealthHandler
+  def call(_)
+    [
+      200,
+      { 'Content-Type' => 'application/json' },
+      [JSON.generate({ status: 'pass (test)' })]
+    ]
+  end
+end
+
 # Required tests for our custom HTTP server
 describe 'functional test for our custom HTTP server' do
   before(:all) do
@@ -30,7 +41,7 @@ describe 'functional test for our custom HTTP server' do
   end
 
   after do
-    @server.stop
+    @server.stop unless @server.server.nil?
   end
 
   it 'test that server is able to handle a given route' do
@@ -70,6 +81,14 @@ describe 'functional test for our custom HTTP server' do
     assert_equal Net::HTTPOK, res.code_type
     assert_equal 'pass', JSON.parse(res.body)['status']
   end
-end
 
-# HTTP Server answer on a given /health endpoint
+  it 'test that the health handler can be override' do
+    @server.handle('/health', HealthHandler)
+    @server.start
+
+    res = Net::HTTP.get_response(URI('http://0.0.0.0:8080/health'))
+
+    assert_equal Net::HTTPOK, res.code_type
+    assert_equal 'pass (test)', JSON.parse(res.body)['status']
+  end
+end
