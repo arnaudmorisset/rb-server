@@ -43,9 +43,17 @@ describe 'functional test for our custom HTTP server' do
     assert_equal Net::HTTPOK, res.code_type
     assert_equal 'OK!', res.body
   end
+
+  it 'test that server return NOT FOUND when route doesn\'t exist' do
+    @server.start
+
+    res = Net::HTTP.get_response(URI('http://0.0.0.0:8080/ping'))
+
+    assert_equal Net::HTTPNotFound, res.code_type
+    assert_equal 'Not Found: /ping', res.body
+  end
 end
 
-# HTTP Server send back 404 when route doesn't exist
 # HTTP Server handle fatal errors and returns 500
 # HTTP Server answer on /health by default
 # HTTP Server answer on a given /health endpoint
