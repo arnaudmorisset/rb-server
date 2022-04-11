@@ -1,10 +1,10 @@
 # RB Server
 
+> **This repository is not a library** and should be interesting only for me and my coworkers. 🙂
+
 This is a simple abstraction on top of [Thin](https://github.com/macournoyer/thin).
 
-This HTTP server can start, stop, handle `GET` requests and came with a default endpoint for `/health`.
-
-> **This repository is not a library** and should be interesting mostly for me and my coworkers. 🙂
+This HTTP server can only start, stop, handle `GET` requests and handle `/health` by default.
 
 ## Installation
 
