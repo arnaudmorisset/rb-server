@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'json'
 require 'net/http'
 require 'minitest/autorun'
 require_relative './http_server'
@@ -60,7 +61,15 @@ describe 'functional test for our custom HTTP server' do
     assert_equal Net::HTTPInternalServerError, res.code_type
     assert_equal 'Internal server error', res.body
   end
+
+  it 'test that server start with a default handler for /health' do
+    @server.start
+
+    res = Net::HTTP.get_response(URI('http://0.0.0.0:8080/health'))
+
+    assert_equal Net::HTTPOK, res.code_type
+    assert_equal 'pass', JSON.parse(res.body)['status']
+  end
 end
 
-# HTTP Server answer on /health by default
 # HTTP Server answer on a given /health endpoint

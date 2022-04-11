@@ -2,6 +2,17 @@
 
 require 'thin'
 
+# Default handler for `/health`
+class HealthHandler
+  def call(_)
+    [
+      200,
+      { 'Content-Type' => 'application/json' },
+      [JSON.generate({ status: 'pass' })]
+    ]
+  end
+end
+
 # Custom HTTP server for any kind of request
 # that shouldn't go through the API gateway.
 class HTTPServer
@@ -10,7 +21,7 @@ class HTTPServer
   def initialize(domain, port)
     @port = port
     @domain = domain
-    @url_map = {}
+    @url_map = { '/health' => HealthHandler.new }
   end
 
   def handle(path, handler)
