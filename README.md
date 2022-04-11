@@ -24,11 +24,3 @@ bundle install
 # Run tests
 bundle exec rake test
 ```
-
-## Contributing
-
-I'm sorry, but contributions aren't accepted here unless you've found a severe issue (such as security vulnerability).
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
